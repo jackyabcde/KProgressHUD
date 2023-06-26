@@ -327,7 +327,18 @@ public class KProgressHUD {
     public void dismiss() {
         mFinished = true;
         if (mContext != null && mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
+            //mProgressDialog.dismiss();
+
+            if (mContext instanceof Activity) {
+                Activity activity = (Activity)mContext;
+                if (!activity.isFinishing() && !activity.isDestroyed()) {
+                    mProgressDialog.dismiss();
+                }
+            }
+            else {
+                mProgressDialog.dismiss();
+            }
+
         }
         if (mGraceTimer != null) {
             mGraceTimer.removeCallbacksAndMessages(null);
